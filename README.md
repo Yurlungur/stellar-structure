@@ -41,3 +41,15 @@ the stellar structure equations to iterate outwards and we stop when
 
 Therefore, a given pressure in the center of the star produces a
 different mass and a different radius of the star.
+
+## To run
+
+Simply clone the repository and run
+
+```bash
+python2 structure.py
+```
+
+This should produce a pdf plot. You can play with the constants at the
+top of the program to change the polytropic index, the initial
+pressure, or the radial distance for the forward Euler step.
