@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 
 # Author: Jonah Miller (jonah.maxwell.miller@gmail.com)
-# Time-stamp: <2016-05-11 00:16:04 (jmiller)>
+# Time-stamp: <2016-05-11 10:21:58 (jmiller)>
 
 # This is a simple script to calculate and plot the pressure in a star
 # as a function of radius. 
@@ -17,6 +17,7 @@ from matplotlib import pyplot as plt
 # ------------------------------------------------
 K=1.0 # polytrope K
 n=3.0 # polytropic index
+exponent = ((n+1)/n)
 G=1.0 # Newton's constant
 # ------------------------------------------------
 
@@ -27,8 +28,7 @@ def get_rho(P):
     P = K*rho**((n+1)/n)
     which we invert"""
     out = P/K
-    exponent = ((n+1)/n)
-    rho = np.abs(out)**(-exponent)
+    rho = np.abs(out)**(1/exponent)
     return rho
 
 def rhs(r,v):
@@ -77,12 +77,16 @@ def integrate_final(p0,dr,nr):
     return r,v
 
 def plot_profile(r,v):
-    plt.plot(r,v[...,0],lw=3)
-    plt.plot(r,v[...,1],lw=3)
+    m = v[...,0]
+    p = v[...,1]
+    rho = get_rho(p)
+    plt.plot(r,m,lw=3)
+    plt.plot(r,p,lw=3)
+    plt.plot(r,rho,lw=3)
     plt.xlabel('radius',fontsize=20)
-    plt.legend(['mass','pressure'],
+    plt.legend(['mass','pressure','density'],
                fontsize=20,
-               loc = 'upper left')
+               loc = 'lower right')
     plt.savefig('star_profile.pdf',
                 bbox_inches='tight')
     
